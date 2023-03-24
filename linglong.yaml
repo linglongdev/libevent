@@ -1,0 +1,31 @@
+package:
+  id: libevent
+  name: libevent
+  version: 2.1.8
+  kind: lib
+  discription: |
+    libevent
+
+base:
+  id: org.deepin.base
+  version: 20.5.0
+
+source:
+  kind: git
+  url: https://github.com/deepin-community/libevent.git
+  version: master
+  commit: 642c6341f6ab02e5853154faf1df6560abc206e7
+
+  patch:
+  - 0001-Always-build-with-no-undefined.patch
+build:
+  kind: manual
+  manual:
+    configure: |
+      #exec bash
+      autoreconf -ivf
+      ./configure --prefix=${PREFIX} \
+                  --libdir=${PREFIX}/lib \
+                  --disable-libevent-regress
+      make -j6
+      # make -j install
